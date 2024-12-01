@@ -1,0 +1,118 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000; /* Fundo preto */
+    overflow: hidden;
+}
+
+.video-container,
+.video-sequence {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: relative; /* Necessário para posicionar os botões */
+}
+
+#gif-inicial,
+#gif-sequencia {
+    max-width: 90%; /* Mantém o GIF proporcional à tela */
+    max-height: 80%; /* Ajusta para caber na tela */
+}
+
+.previous-button,
+.next-button {
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px; /* Espaço entre o texto e o ícone */
+    position: absolute; /* Posiciona os botões nas laterais */
+    top: 50%; /* Alinha verticalmente ao centro */
+    transform: translateY(-50%); /* Ajusta o alinhamento vertical */
+}
+
+.previous-button img,
+.next-button img {
+    width: 20px; /* Ajusta o tamanho dos ícones */
+    height: auto;
+}
+
+.previous-button:hover,
+.next-button:hover {
+    background: rgba(255, 255, 255, 0.8);
+    color: #000;
+}
+
+.video-sequence {
+    display: none; /* Escondido por padrão */
+    justify-content: center; /* Centraliza o conteúdo */
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.previous-button {
+    left: 10px; /* Posiciona o botão "Anterior" no lado esquerdo */
+    background: rgba(0, 0, 255, 0.103); /* Cor de fundo azul para o botão anterior */
+}
+
+.next-button {
+    right: 10px; /* Posiciona o botão "Próximo" no lado direito */
+    background: rgba(255, 0, 0, 0.073); /* Cor de fundo vermelha para o botão próximo */
+}
+
+.video-sequence img {
+    max-width: 90%; /* Ajusta a largura para se manter proporcional */
+    max-height: 80%; /* Ajusta a altura */
+}
+
+.start-button {
+    position: absolute;
+    top: 80%; /* Alinha verticalmente ao centro do GIF inicial */
+    left: 50%; /* Alinha horizontalmente ao centro do GIF inicial */
+    transform: translate(-50%, -50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 250px; /* Aumenta a largura do botão */
+    height: 250px; /* Aumenta a altura do botão */
+}
+
+.start-button img {
+    width: 100%; /* Faz a imagem ocupar todo o botão */
+    height: 100%; /* Ajusta a altura proporcionalmente */
+    object-fit: contain; /* Mantém a proporção da imagem */
+}
+.start-button img {
+    width: 300px; /* Ajusta o tamanho do GIF do botão */
+    height: auto; /* Mantém a proporção */
+}
+.start-button img {
+    width: 300px; /* Ajusta o tamanho do GIF do botão */
+    object-fit: contain; /* Mantém a proporção da imagem */
+    height: auto; /* Mantém a proporção */
+}/* Inicialmente os botões ficam invisíveis */
+.previous-button,
+.next-button {
+    opacity: 0;
+    pointer-events: none; /* Impede que os botões possam ser clicados quando invisíveis */
+    transition: opacity 0.3s ease; /* Transição suave */
+}
+
+/* Quando o mouse passar por qualquer área da sequência de GIFs, os botões aparecem */
+.video-sequence:hover .previous-button,
+.video-sequence:hover .next-button {
+    opacity: 1;
+    pointer-events: all; /* Permite clicar nos botões quando visíveis */
+}

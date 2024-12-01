@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Among Teoria</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000; /* Fundo preto */
+            overflow: hidden;
+        }
+
+        .video-container,
+        .video-sequence {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            position: relative; /* Necessário para posicionar os botões */
+        }
+
+        #gif-inicial,
+        #gif-sequencia {
+            max-width: 90%; /* Mantém o GIF proporcional à tela */
+            max-height: 80%; /* Ajusta para caber na tela */
+        }
+
+        .previous-button,
+        .next-button {
+            opacity: 0; /* Botões inicialmente invisíveis */
+            pointer-events: none; /* Não podem ser clicados quando invisíveis */
+            transition: opacity 0.3s ease; /* Transição suave */
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px; /* Espaço entre o texto e o ícone */
+        }
+
+        .video-sequence.show-buttons .previous-button,
+        .video-sequence.show-buttons .next-button {
+            opacity: 1; /* Aparece quando o mouse passa sobre a área do GIF */
+            pointer-events: all; /* Permite clicar nos botões quando visíveis */
+        }
+
+        .previous-button img,
+        .next-button img {
+            width: 20px; /* Ajusta o tamanho dos ícones */
+            height: auto;
+        }
+
+        .previous-button {
+            position: absolute;
+            left: 10px; /* Posiciona o botão "Anterior" no lado esquerdo */
+            background: rgba(0, 0, 255, 0.103); /* Cor de fundo azul para o botão anterior */
+        }
+
+        .next-button {
+            position: absolute;
+            right: 10px; /* Posiciona o botão "Próximo" no lado direito */
+            background: rgba(255, 0, 0, 0.073); /* Cor de fundo vermelha para o botão próximo */
+        }
+
+        .previous-button:hover,
+        .next-button:hover {
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+        }
+
+        .video-sequence {
+            display: none; /* Escondido por padrão */
+            justify-content: center; /* Centraliza o conteúdo */
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .video-sequence img {
+            max-width: 90%; /* Ajusta a largura para se manter proporcional */
+            max-height: 80%; /* Ajusta a altura */
+        }
+
+        .start-button {
+            position: absolute;
+            top: 80%; /* Alinha verticalmente ao centro do GIF inicial */
+            left: 50%; /* Alinha horizontalmente ao centro do GIF inicial */
+            transform: translate(-50%, -50%);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .start-button img {
+            width: 150px; /* Ajusta o tamanho do GIF do botão */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <!-- GIF inicial -->
+        <img id="gif-inicial" src="Início.gif" alt="GIF Inicial">
+
+        <!-- Botão para iniciar a sequência de GIFs -->
+        <button id="start-button" class="start-button" onclick="showGifSequence();">
+            <img src="botao-para-iniciar.gif" alt="Iniciar Sequência">
+        </button>
+    </div>
+
+    <div id="gif-sequence" class="video-sequence">
+        <img id="gif-sequencia" src="video1.gif" alt="GIF Sequência">
+
+        <button class="previous-button" onclick="previousGif();">
+            <img src="among-us-iconvoltar.png" alt="Previous"> Anterior
+        </button>
+
+        <button class="next-button" onclick="nextGif();">
+            <img src="among-us-icon.png" alt="Next"> Próximo
+        </button>
+    </div>
+
+    <script>
+        let currentGifIndex = 0;
+        const gifs = ['video1.gif', 'video2.gif', 'video3.gif'];
+
+        function showGifSequence() {
+            document.querySelector('.video-container').style.display = 'none';
+            const gifSequence = document.getElementById('gif-sequence');
+            gifSequence.style.display = 'flex';
+            document.getElementById('gif-sequencia').src = gifs[currentGifIndex];
+        }
+
+        function nextGif() {
+            currentGifIndex = (currentGifIndex + 1) % gifs.length;
+            document.getElementById('gif-sequencia').src = gifs[currentGifIndex];
+        }
+
+        function previousGif() {
+            currentGifIndex = (currentGifIndex - 1 + gifs.length) % gifs.length;
+            document.getElementById('gif-sequencia').src = gifs[currentGifIndex];
+        }
+
+        // Para mostrar os botões ao passar o mouse sobre a área do GIF
+        const videoSequence = document.getElementById('gif-sequence');
+
+        // Detecta quando o mouse entra na área do GIF (computador)
+        videoSequence.addEventListener('mouseenter', function() {
+            videoSequence.classList.add('show-buttons');
+        });
+
+        // Detecta quando o mouse sai da área do GIF (computador)
+        videoSequence.addEventListener('mouseleave', function() {
+            videoSequence.classList.remove('show-buttons');
+        });
+
+        // Para dispositivos móveis (clicar na tela)
+        let clickTimer;
+        
+        // Mostrar os botões quando o usuário clicar na tela
+        videoSequence.addEventListener('click', function() {
+            videoSequence.classList.add('show-buttons');
+            
+            // Esconde os botões após 3 segundos se não houver outro clique
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(function() {
+                videoSequence.classList.remove('show-buttons');
+            }, 3000); // Esconde os botões após 3 segundos
+        });
+    </script>
+</body>
+</html>
